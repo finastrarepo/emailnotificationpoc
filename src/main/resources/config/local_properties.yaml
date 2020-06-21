@@ -1,5 +1,5 @@
 username: "mulesoft_integration(noreply)@finastra.com"
 password: "![dIZY1RukNtogVsvWKQt6+A==]"
-smtp : "smtp-mail.outlook.com"
+smtp : "smtps.finastra.global"
 email : "pravin.raikwar@finastra.com"
 port : "25"
