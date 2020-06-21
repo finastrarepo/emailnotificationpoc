@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="7f7587e8-7d63-442f-8759-699cec33aae5" >
+		<email:smtp-connection host="${secure::smtp}" user="${secure::username}" password="${secure::password}" connectionTimeout="100" readTimeout="100" writeTimeout="100" port="${secure::port}">
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="95cb804f-be0d-41d3-8896-0894b587459a" >
+		<http:listener-connection host="localhost" port="8082" />
+	</http:listener-config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="0e33a5ab-c678-48a3-acba-ba3fca80d3e4" file="config\local_properties.yaml" key="gqikztodczvzrqssbfhvbrupobuznuoy" />
+	<flow name="emailnotificationpocFlow" doc:id="49481fdf-2b88-42ce-8351-6fdd0de59d75" >
+		<http:listener doc:name="Listener" doc:id="2e892211-675e-4f79-9c62-6b33acbad986" config-ref="HTTP_Listener_config" path="/sendEmail"/>
+		<set-payload value='#["Test Mail"]' doc:name="Set Payload" doc:id="6b268c55-a2f8-4175-ade8-c5a677c8f5e7" />
+		<email:send doc:name="Send" doc:id="3e6a6e3d-d8a2-4dd8-a563-f3fde61d05d3" config-ref="Email_SMTP" subject="Mulesoft Email Notification POC">
+			<email:to-addresses>
+				<email:to-address value="${secure::email}" />
+			</email:to-addresses>
+			<email:body contentType="text/html" />
+		</email:send>
+	</flow>
+</mule>

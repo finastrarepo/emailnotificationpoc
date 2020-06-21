@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="inputJson" format="json">
+      <types:shape format="weave" example="examples/input.json"><![CDATA[%dw 2.0
+
+type inputJson = {| url: String |} {"example": "{\\\"url\\\":\\\"https:\\/\\/3431250-sb99.suitetalk.api.netsuite.com\\/services\\/rest\\/record\\/v1\\/invoice\\/12002283\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="outputJson" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+  </types:catalog>
+</types:mule>
